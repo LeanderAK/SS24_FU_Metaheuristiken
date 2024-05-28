@@ -1,4 +1,5 @@
 import time
+from lib.pdm_solver import PDMSolver
 from lib.settings import Settings
 from lib.networkInput import NetworkInput
 from lib.network import Network
@@ -22,9 +23,9 @@ if __name__ == '__main__':
     network = Network(network_input)
     print('Done')
     print('Start solving MinCostFlow...')
-    if settings.get_solver_method() ==  'XX':
+    if settings.get_solver_method() ==  'PDM':
         print('Selected solover method:' + settings.get_solver_method())
-        #network_flow = XXSolver.solve(network)
+        network_flow = PDMSolver.solve(network)
     elif settings.get_solver_method() == 'YY':
         print('Selected solover method:' + settings.get_solver_method())
         #network_flow = YYSolver.solve(network)
