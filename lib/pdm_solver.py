@@ -15,6 +15,7 @@ def get_path_to_closest_demand_node(distances:dict[str:Tuple[float, Arc]], deman
             shortest_distance_node = node
 
     # get Path to closest_node
+    # traversal_node = Node("3", None)
     traversal_node = shortest_distance_node
     path: list[Arc] = []
 
@@ -23,7 +24,16 @@ def get_path_to_closest_demand_node(distances:dict[str:Tuple[float, Arc]], deman
         path.append(arc_instance)
         traversal_node = arc_instance.from_node
     
-    return reversed(path)
+    return path[::-1]
+
+def get_max_flow_on_path(path: list[Arc]) -> float:
+    # max_flow / lowest upper_bound
+    lowest_upper_bound = float('inf')
+    for arc in path:
+        if arc.upper_bound < lowest_upper_bound:
+            lowest_upper_bound = arc.upper_bound
+
+    return lowest_upper_bound
 
 class PDMSolver:
     def __init__(self):
@@ -40,6 +50,21 @@ class PDMSolver:
         path = get_path_to_closest_demand_node(distances= distances, demand_nodes = demand_nodes)
         for arc in path:
             print(arc)
+        max_flow = get_max_flow_on_path(path)
+
+        # while bedarf nich auf allen bedarfsknoten gedeckt
+            # do djikstra with current network
+            # get_max_flow_on_path 
+            # save all flows
+                # dictionary : {
+                #  arc : current flow on arc
+                # }
+            # create new network 
+                # create backwards arcs
+                    # edit forward arc cost
+                        # Remove arc from network if upper = current_flow
+            # return new_network
+
 
 
         # PDM process from the slides:
