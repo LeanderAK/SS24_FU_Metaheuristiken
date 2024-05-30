@@ -16,7 +16,7 @@ def get_node_with_shortest_distance(distances, unexplored_nodes):
     return closest_node, shortest_distance
 
 def do_djikstra(_network):
-
+    # TODO manage 0 Networks
     supply_nodes = _network.get_supply_nodes()
 
     unexplored_nodes: list[Node] = list(_network.nodes.values())
@@ -34,7 +34,6 @@ def do_djikstra(_network):
     for i in range(6):
         closest_node, shortest_distance = get_node_with_shortest_distance(distances, unexplored_nodes)
         if closest_node is not None:
-            print("closest node id: ", closest_node.id)
             finished_nodes.append(closest_node)
             unexplored_nodes.remove(closest_node)
 

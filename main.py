@@ -27,6 +27,7 @@ if __name__ == '__main__':
     elif settings.get_solver_method() == 'YY':
         print('Selected solover method:' + settings.get_solver_method())
         #network_flow = YYSolver.solve(network)
+        
     else:
         raise ValueError('Invalid solver method:' + settings.get_solver_method())
     print('Done')

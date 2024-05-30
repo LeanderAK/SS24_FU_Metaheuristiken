@@ -13,12 +13,13 @@ class Node:
 
 
 class Arc:
-    def __init__(self, from_node:Node, to_node:Node, cost:float, lower_bound:float, upper_bound:float):
+    def __init__(self, from_node:Node, to_node:Node, cost:float, lower_bound:float, upper_bound:float, is_backward: bool = False):
         self.from_node:Node = from_node
         self.to_node:Node = to_node
         self.cost:float  = cost
         self.lower_bound:float = lower_bound
         self.upper_bound:float = upper_bound
+        self.is_backward:bool = is_backward
         
     def get_tuple_representation(self) -> tuple[str,str]:
         return (self.from_node,self.to_node)
@@ -31,6 +32,7 @@ class Network:
         self.nodes:dict[Node] = {}
         # TODO performance bottleneck when searching for specific Arc
         self.arcs:list[Arc] = []
+        self.flow: dict[Arc:float] = {}
 
     def fill_from_json(self, filename):
         with open(filename, "r") as file:
