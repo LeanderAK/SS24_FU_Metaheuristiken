@@ -1,40 +1,54 @@
+from typing import Tuple
+from lib.network import Arc, Node
+
 def save_network_flow(network_flow):
     pass
 
-def get_node_with_shortest_distance(distances, finished_nodes):
-    # return min(distances, key=distances.get)
+def get_node_with_shortest_distance(distances, unexplored_nodes):
     shortest_distance = float('inf')
-    node_with_min_distance = None
+    closest_node: Node = None
+    for node in unexplored_nodes:
+        distance = distances.get(node.id)[0]
+        if distance < shortest_distance:
+            shortest_distance = distance
+            closest_node = node
 
-    for node, distance in distances.items():
-        if node not in finished_nodes:
-            if distance < shortest_distance:
-                shortest_distance = distance
-                node_with_min_distance = node
+    return closest_node, shortest_distance
 
-    return node_with_min_distance
+def do_djikstra(_network):
 
-def get_distance_between_points(network):
-    nodes = network.get_nodes()
-    arcs = network.get_arcs()
+    supply_nodes = _network.get_supply_nodes()
 
-    initial_route = [key for key, value in nodes.items() if value.get('demand') < 0]
+    unexplored_nodes: list[Node] = list(_network.nodes.values())
+    finished_nodes:list[Node] = [] 
 
-    finished_nodes = [] 
-    distances = {}
-    for key, value in nodes.items():
-        distances[key] = 0 if key in initial_route else float('inf')
+    # {
+    #     node_id : (node_cost, incoming arc to node)
+    # }
+    distances:dict[str:Tuple[float, Arc]] = {}
+
+    for node in unexplored_nodes:
+        distances[node.id] = (0 if node in supply_nodes else float('inf'), None)
     
-    while not all(node in finished_nodes for node in list(nodes.keys())):
-        shortest_node = get_node_with_shortest_distance(distances, finished_nodes)
-        finished_nodes.append(shortest_node)
-        for arc in arcs:
-            if arc.get('from') == shortest_node:
-                end_node = arc.get('to')
-                cost = arc.get('cost')
-                new_distance = distances[shortest_node] + cost
+    # while not all(node in finished_nodes for node in _network.arcs):
+    for i in range(6):
+        closest_node, shortest_distance = get_node_with_shortest_distance(distances, unexplored_nodes)
+        if closest_node is not None:
+            print("closest node id: ", closest_node.id)
+            finished_nodes.append(closest_node)
+            unexplored_nodes.remove(closest_node)
 
-                if new_distance < distances[end_node]:
-                    distances[end_node] = new_distance 
-    
+            neighboring_nodes = _network.get_neighboring_nodes(closest_node)
+            for neighbor_node in neighboring_nodes:
+                neighbor_arc = _network.get_arc_from_to(from_node = closest_node, to_node = neighbor_node)
+
+                closest_node_cost = distances.get(closest_node.id)[0]
+                # cost of arc + cost of current node
+                new_neighbor_cost = neighbor_arc.cost + closest_node_cost
+                current_neighbor_cost = distances.get(neighbor_node.id)[0]
+
+                if new_neighbor_cost < current_neighbor_cost:
+                    current_neighbor_cost = new_neighbor_cost
+                    distances[neighbor_node.id] = (current_neighbor_cost, neighbor_arc)
+
     return distances
