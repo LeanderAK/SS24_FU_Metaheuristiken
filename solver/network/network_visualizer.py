@@ -1,6 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
-from lib.network.network import Network
+from solver.network.network import Network
 
 ###
 # Helper file used for visualizing the graph

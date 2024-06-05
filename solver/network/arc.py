@@ -1,4 +1,4 @@
-from lib.network.node import Node
+from solver.network.node import Node
 
 class Arc:
     def __init__(self, from_node:Node, to_node:Node, cost:float, lower_bound:float, upper_bound:float, is_backward: bool = False):

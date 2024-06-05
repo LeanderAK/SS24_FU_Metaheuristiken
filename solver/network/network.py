@@ -1,6 +1,6 @@
 import json
-from lib.network.node import Node
-from lib.network.arc import Arc
+from solver.network.node import Node
+from solver.network.arc import Arc
 
 class Network:
     ### 

@@ -1,8 +1,8 @@
 from typing import Tuple
 
-from lib.network.network import Network
-from lib.network.arc import Arc
-from lib.network.node import Node
+from solver.network.network import Network
+from solver.network.arc import Arc
+from solver.network.node import Node
 
 def save_network_flow(network_flow):
     pass
