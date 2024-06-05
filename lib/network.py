@@ -21,13 +21,17 @@ class Arc:
         self.upper_bound:float = upper_bound
         self.is_backward:bool = is_backward
         
-    def get_tuple_representation(self) -> tuple[str,str]:
-        return (self.from_node,self.to_node)
+    def get_tuple_string_representation(self) -> tuple[str,str]:
+        return (self.from_node.id,self.to_node.id)
     
     def __str__(self):
         return f"from: {self.from_node} to {self.to_node}"
 
 class Network:
+    ### 
+    # class representing the network
+    ###
+    
     def __init__(self):
         self.nodes:dict[Node] = {}
         # TODO performance bottleneck when searching for specific Arc
@@ -74,10 +78,24 @@ class Network:
         
         return _nodes_as_strings
     
-    def get_edges_as_tuples(self) -> list[Arc]:
+    def get_edges_as_string_tuples(self) -> list[tuple[str,str]]:
         _edges_as_tuples:list[tuple[str,str]] = []
         
         for index,edge in enumerate(self.arcs):  
-           _edges_as_tuples.append(edge.get_tuple_representation())  
+           _edges_as_tuples.append(edge.get_tuple_string_representation())  
         
         return _edges_as_tuples
+    
+    def __str__(self):
+        nodes_str = "\n".join(str(node) for node in self.nodes)
+        arcs_str = "\n".join(str(arc) for arc in self.arcs)
+        
+        return (
+            "---- Network Debug View ---- \n"           
+            "nodes --- \n"
+            f"{nodes_str}\n"
+            "edges ---- \n"
+            f"{arcs_str} \n"
+            "---- Network Debug View End ----"
+        )
+        

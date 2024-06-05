@@ -7,36 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def plot_network_instance(network_instance):
-    G = nx.MultiDiGraph()
-     
-    G.add_nodes_from(network_instance.get_nodes_as_strings())
-    G.add_edges_from(network_instance.get_edges_as_tuples())
 
-
-    pos = nx.spring_layout(G)
-
-    options = {
-        'node_color': 'yellow',
-        'with_labels': True,
-        'node_size': 700,
-        'edge_color': 'gray',
-        'width': 3,
-        'arrowstyle': '-|>',
-        'arrowsize': 12,
-    }
-
-    # Draw nodes
-    nx.draw_networkx_nodes(G, pos, node_size=500, node_color='skyblue')
-
-    # Draw labels
-    nx.draw_networkx_labels(G, pos)
-
-    # Draw edges
-    for i, (u, v, key) in enumerate(G.edges(keys=True)):
-        nx.draw_networkx_edges(G, pos, edgelist=[(u, v)], connectionstyle=f'arc3,rad={0.01 + 0.01 * i}', edge_color='gray', arrows=True, arrowstyle='-|>',arrowsize=12)
-
-    plt.show()
 
 def get_path_to_closest_demand_node(distances:dict[str:Tuple[float, Arc]], demand_nodes:list[Node]) -> list[Arc]:
     shortest_distance = float('inf')
@@ -71,8 +42,8 @@ def get_max_flow_on_path(path: list[Arc]) -> float:
 
     return lowest_upper_bound
 
-def check_if_demand_fulfilled(current_network_instance: Network) -> bool:
-    demand_nodes = current_network_instance.get_demand_nodes()
+def check_if_demand_fulfilled(network_instance: Network) -> bool:
+    demand_nodes = network_instance.get_demand_nodes()
     if len(demand_nodes) > 0:
         return False
     return True
