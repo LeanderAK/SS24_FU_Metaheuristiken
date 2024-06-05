@@ -12,6 +12,6 @@ class Path():
         for arc in self.arcs:
             self.nodes.append(arc.to_node)                     
         
-        self.starting_node = self.nodes[0]
-        self.ending_node = self.nodes[-1]
+        self.start_node = self.nodes[0]
+        self.end_node = self.nodes[-1]
         
