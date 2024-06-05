@@ -28,21 +28,13 @@ def do_djikstra(_network: Network): #-> dict[str:Tuple[float, Arc]]:
     unexplored_nodes: list[Node] = list(_network.nodes.values())
     explored_nodes:list[Node] = [] 
 
-    # {
-    #     node_id : (node_cost, incoming arc to node)
-    # }
-    # distances:dict[str:Tuple[float, Arc]] = {}
 
     for node in unexplored_nodes:
-        #distances[node.id] = (0 if node in supply_nodes else float('inf'), None)
         #cost - is the same as - distance
         node.smallest_cost_to_arrive = (0 if node in supply_nodes else float('inf'))
     
-    #while not all(node in explored_nodes for node in _network.nodes):
     while len(unexplored_nodes) > 0:
-    #for i in range(6):
         node_being_explored, shortest_distance = get_node_with_shortest_distance(unexplored_nodes)
-        #if closest_node is not None:
         
         explored_nodes.append(node_being_explored)
         unexplored_nodes.remove(node_being_explored)
@@ -58,17 +50,20 @@ def do_djikstra(_network: Network): #-> dict[str:Tuple[float, Arc]]:
                 neighbor_node.smallest_cost_to_arrive = new_neighbor_cost
                 neighbor_node.incoming_arc_with_smallest_cost = neighbor_arc
 
-    #return distances
 
-def get_path_to_closest_demand_node(demand_nodes:list[Node]) -> Path:
+def get_path_to_closest_demand_node(demand_nodes:list[Node], supply_nodes:list[Node]) -> Path:  #TODO maybe supply nodes are not needed actually
     shortest_distance = float('inf')
     shortest_distance_node: Node = None
 
+    print("get_path_to_closest_demand_node 1")
     for node in demand_nodes:
         distance = node.smallest_cost_to_arrive
         if distance < shortest_distance:
             shortest_distance = distance
             shortest_distance_node = node
+
+    print("get_path_to_closest_demand_node 2")
+    print(f"shortest_distance_node: {shortest_distance_node}")
 
     # get Path to closest_node
     # traversal_node = Node("3", None)
@@ -81,17 +76,24 @@ def get_path_to_closest_demand_node(demand_nodes:list[Node]) -> Path:
             arc = traversal_node.incoming_arc_with_smallest_cost
             arc_list.append(arc)
             traversal_node = arc.from_node
+            #if(arc.from_node in supply_nodes)  # this is not redundant due to backwards arc the supply node can also have an incoming arc
+            
+    print("get_path_to_closest_demand_node 3")
+
     
     path: Path = Path(arcs = arc_list[::-1])
     
     return path
 
 def get_max_flow_on_path(path: Path) -> float:
-    # max_flow / lowest upper_bound
-    lowest_upper_bound = float('inf')
+    # max_flow / lowest upper_bound    
+    #lowest_upper_bound = float('inf')
+    lowest_upper_bound =  max(0,path.end_node.current_demand)
     for arc in path.arcs:
         if arc.upper_bound < lowest_upper_bound:
             lowest_upper_bound = arc.upper_bound
+            
+    
 
     return lowest_upper_bound
 

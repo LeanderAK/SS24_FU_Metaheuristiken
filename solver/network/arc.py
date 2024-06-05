@@ -9,7 +9,7 @@ class Arc:
         self.lower_bound:float = lower_bound
         self.upper_bound:float = upper_bound
         
-        self.current_flow = 0
+        self.flow = 0
         
         self.is_backward:bool = is_backward
         
@@ -24,4 +24,4 @@ class Arc:
         return f"from: {self.from_node} to {self.to_node} {backwards_string}"
     
     def get_remaining_flow(self) -> float:
-        return self.upper_bound - self.current_flow
+        return self.upper_bound - self.flow

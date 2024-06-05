@@ -24,8 +24,8 @@ class Network:
                 to_node = self.nodes.get(arc_data["to"])
                 self.arcs.append(Arc(from_node, to_node, arc_data["cost"], arc_data["lower_bound"], arc_data["upper_bound"]))
                 
-        #temp for testing
-        self.arcs.append(Arc(self.nodes.get('2'),self.nodes.get('1'),4,0,3,True))
+        #temp one backwards edge for testing
+        #self.arcs.append(Arc(self.nodes.get('2'),self.nodes.get('1'),4,0,3,True))
                 
     def get_neighboring_nodes(self, node: Node) -> list[Node]:
         neighbor_list: list[Node] = []

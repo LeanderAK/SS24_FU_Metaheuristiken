@@ -15,3 +15,6 @@ class Path():
         self.start_node = self.nodes[0]
         self.end_node = self.nodes[-1]
         
+    def __str__(self) -> str:
+        return  '---- Path ---- \n' + '\n'.join(str(arc) for arc in self.arcs)
+        
