@@ -15,13 +15,12 @@ class PDMSolver:
         print('TBD')
 
 
-    def solve(network_instance: Network):
-        current_network_instance = network_instance
+    def solve(_network_instance: Network):
 
         # while not check_if_demand_fulfilled(current_network_instance):
         for i in range(10):
-            distances = do_djikstra(current_network_instance)
-            demand_nodes = current_network_instance.get_demand_nodes()
+            distances = do_djikstra(_network_instance)
+            demand_nodes = _network_instance.get_demand_nodes()
             path = get_path_to_closest_demand_node(distances= distances, demand_nodes=demand_nodes)
             max_flow = get_max_flow_on_path(path)
 
@@ -31,7 +30,7 @@ class PDMSolver:
                 nodes_in_path.add(arc.to_node)
                 nodes_in_path.add(arc.from_node)
                 # Can we use += here instead of accessing the value again?
-                current_network_instance.flow[arc] = current_network_instance.flow.get(arc, 0) + max_flow
+                _network_instance.flow[arc] = _network_instance.flow.get(arc, 0) + max_flow
             
             # Subtract flow from demand on all nodes in path
             for node in nodes_in_path:
@@ -41,8 +40,8 @@ class PDMSolver:
             existing_arcs:list[Arc] = []
             new_arcs:list[Arc] = []
 
-            for current_arc in current_network_instance.arcs:
-                arc_flow = current_network_instance.flow.get(current_arc, 0)
+            for current_arc in _network_instance.arcs:
+                arc_flow = _network_instance.flow.get(current_arc, 0)
                 # E+
                 if arc_flow < current_arc.upper_bound:
                     print("e+", current_arc)
@@ -65,7 +64,7 @@ class PDMSolver:
                     )
                     new_arcs.append(new_arc)
 
-            current_network_instance.arcs = existing_arcs + new_arcs
+            _network_instance.arcs = existing_arcs + new_arcs
 
             print("done iteration")
 
