@@ -90,9 +90,9 @@ def plot_network(_network: Network):
     node_demand = {node_id: (node.current_demand,node.initial_demand) for node_id, node in _network.nodes.items()}
     label_pos = {node_id: (pos[node_id][0] + 0.1, pos[node_id][1] - 0.1) for node_id in G.nodes()}  # Adjust label positions
     for node_id, (x, y) in label_pos.items():
-        color = 'grey' 
+        color = 'green' 
         if(node_demand[node_id][0] < 0):
-            color = 'green'
+            color = 'blue'
         elif(node_demand[node_id][0] > 0):
             color = 'red'
             

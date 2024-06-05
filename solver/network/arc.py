@@ -21,7 +21,8 @@ class Arc:
         if(self.is_backward):
             backwards_string = '-is_backwards'
         
-        return f"from: {self.from_node} to {self.to_node} {backwards_string}"
+        #return f"from: {self.from_node} to {self.to_node} {backwards_string}"
+        return f"from: {self.from_node} to {self.to_node}"
     
     def get_remaining_flow(self) -> float:
         return self.upper_bound - self.flow
