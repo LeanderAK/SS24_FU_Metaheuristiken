@@ -11,7 +11,7 @@ class Network:
         self.nodes:dict[Node] = {}
         # TODO performance bottleneck when searching for specific Arc
         self.arcs:list[Arc] = []
-        self.flow: dict[Arc:float] = {}
+        #self.flow: dict[Arc:float] = {}
 
     def fill_from_json(self, filename):
         with open(filename, "r") as file:
@@ -43,10 +43,10 @@ class Network:
 
 
     def get_supply_nodes(self) -> list[Node]:
-        return [node for node_id, node in self.nodes.items() if node.demand < 0]
+        return [node for node_id, node in self.nodes.items() if node.current_demand < 0]
 
     def get_demand_nodes(self) -> list[Node]:
-        return [node for node_id, node in self.nodes.items() if node.demand > 0]
+        return [node for node_id, node in self.nodes.items() if node.current_demand > 0]
 
     def get_nodes_as_strings(self) -> list[Node]:
         _nodes_as_strings:list[str] = []

@@ -59,6 +59,12 @@ def plot_network(_network: Network):
     #for i, (source_n, target_n, key) in enumerate(G.edges(keys=True)):
     #    nx.draw_networkx_edges(G, pos, edgelist=[(source_n, target_n)], connectionstyle=f'arc3,rad={0.01 + 0.01 * i}', edge_color='gray', arrows=True, arrowstyle='-|>',arrowsize=12)
 
+    node_costs = {node_id: node.smallest_cost_to_arrive for node_id, node in _network.nodes.items()}
+    label_pos = {node_id: (pos[node_id][0], pos[node_id][1] - 0.1) for node_id in G.nodes()}  # Adjust label positions
+    for node_id, (x, y) in label_pos.items():
+        nx.draw_networkx_labels(G, {node_id: (x, y)}, labels={node_id: f'{node_costs[node_id]}'}, font_size=10, font_color='black', font_weight='bold')  # Draw node labels
+
+
     plt.show()
     
 

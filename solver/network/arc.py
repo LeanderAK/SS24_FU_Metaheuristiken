@@ -4,9 +4,13 @@ class Arc:
     def __init__(self, from_node:Node, to_node:Node, cost:float, lower_bound:float, upper_bound:float, is_backward: bool = False):
         self.from_node:Node = from_node
         self.to_node:Node = to_node
+        
         self.cost:float  = cost
         self.lower_bound:float = lower_bound
         self.upper_bound:float = upper_bound
+        
+        self.current_flow = 0
+        
         self.is_backward:bool = is_backward
         
     def get_tuple_string_representation(self) -> tuple[str,str]:
@@ -18,3 +22,6 @@ class Arc:
             backwards_string = '-is_backwards'
         
         return f"from: {self.from_node} to {self.to_node} {backwards_string}"
+    
+    def get_remaining_flow(self) -> float:
+        return self.upper_bound - self.current_flow

@@ -45,3 +45,6 @@ if __name__ == '__main__':
     #helper.save_network_flow(network_flow)
     print('Done')
     print('Total time: ' + str(time.time() - start_time) + ' seconds')
+    
+    plot_network(_network_instance)
+
