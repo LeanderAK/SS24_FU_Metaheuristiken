@@ -1,52 +1,11 @@
 import json
 from typing import Tuple
-from lib.helper import do_djikstra
+from lib.helper import *
 from lib.network import Arc, Network, Node
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-
-
-def get_path_to_closest_demand_node(distances:dict[str:Tuple[float, Arc]], demand_nodes:list[Node]) -> list[Arc]:
-    shortest_distance = float('inf')
-    shortest_distance_node: Node = None
-
-    for node in demand_nodes:
-        distance = distances.get(node.id)[0]
-        if distance < shortest_distance:
-            shortest_distance = distance
-            shortest_distance_node = node
-
-    # get Path to closest_node
-    # traversal_node = Node("3", None)
-
-    # TODO Infinite loop if two nodes are connected by edges in both directions
-    traversal_node = shortest_distance_node
-    path: list[Arc] = []
-    if traversal_node is not None:
-        while distances.get(traversal_node.id)[1] is not None:
-            arc_instance = distances.get(traversal_node.id)[1]
-            path.append(arc_instance)
-            traversal_node = arc_instance.from_node
-    
-    return path[::-1]
-
-def get_max_flow_on_path(path: list[Arc]) -> float:
-    # max_flow / lowest upper_bound
-    lowest_upper_bound = float('inf')
-    for arc in path:
-        if arc.upper_bound < lowest_upper_bound:
-            lowest_upper_bound = arc.upper_bound
-
-    return lowest_upper_bound
-
-def check_if_demand_fulfilled(network_instance: Network) -> bool:
-    demand_nodes = network_instance.get_demand_nodes()
-    if len(demand_nodes) > 0:
-        return False
-    return True
 
 class PDMSolver:
     def __init__(self):
