@@ -21,19 +21,19 @@ if __name__ == '__main__':
     #print('Loading Inputdata...')
     #print('Done')
     print('Start creating Network...')
-    network_instance = Network()
-    network_instance.fill_from_json(settings.get_data_path())
-    print(network_instance)
+    _network_instance = Network()
+    _network_instance.fill_from_json(settings.get_data_path())
+    print(_network_instance)
     print('Done \n')
     
     print('Visualize Network')
-    plot_network(network_instance)
+    plot_network(_network_instance)
     print('Done \n')
     
     print('Start solving MinCostFlow...')
     if settings.get_solver_method() ==  'PDM':
         print('Selected solover method:' + settings.get_solver_method())
-        network_flow = PDMSolver.solve(network_instance=network_instance)
+        network_flow = PDMSolver.solve(network_instance=_network_instance)
     elif settings.get_solver_method() == 'YY':
         print('Selected solover method:' + settings.get_solver_method())
         #network_flow = YYSolver.solve(network)

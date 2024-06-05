@@ -18,7 +18,7 @@ def get_node_with_shortest_distance(distances, unexplored_nodes):
 
     return closest_node, shortest_distance
 
-def do_djikstra(_network):
+def do_djikstra(_network: Network) -> dict[str:Tuple[float, Arc]]:
     # TODO manage 0 Networks
     supply_nodes = _network.get_supply_nodes()
 
