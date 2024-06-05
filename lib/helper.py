@@ -1,5 +1,8 @@
 from typing import Tuple
-from lib.network import Arc, Node, Network
+
+from lib.network.network import Network
+from lib.network.arc import Arc
+from lib.network.node import Node
 
 def save_network_flow(network_flow):
     pass

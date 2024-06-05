@@ -1,9 +1,10 @@
 import time
 from lib.pdm_solver import PDMSolver
 from lib.settings import Settings
-from lib.network import Network
 from lib import helper
-from lib.network_visualizer import * 
+
+from lib.network.network import Network
+from lib.network.network_visualizer import * 
 
 #from lib.xxSolver import XXSolver
 #from lib.yySolver import YYSolver

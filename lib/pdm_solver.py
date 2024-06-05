@@ -1,10 +1,13 @@
 import json
 from typing import Tuple
 from lib.helper import *
-from lib.network import Arc, Network, Node
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
+
+from lib.network.network import Network
+from lib.network.arc import Arc
+from lib.network.node import Node
 
 
 class PDMSolver:
