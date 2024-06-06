@@ -1,6 +1,6 @@
 from solver.network.network import Network
 import gurobipy as gp
-from gurobipy import GRB
+from gurobipy import Model, GRB, quicksum
 
 class GUROBISolver:
     def __init__(self):
@@ -9,50 +9,52 @@ class GUROBISolver:
 
     def solve(_network: Network):
         print("TBD")
-        nodes = _network.nodes
-        node_ids = list(nodes.keys())
-        
-        arcs = _network.arcs
-        model = gp.Model()
+        nodes = {
+            "1": {"demand": -9},
+            "2": {"demand": 4},
+            "3": {"demand": 17},
+            "4": {"demand": 1},
+            "5": {"demand": -5},
+            "6": {"demand": -8}
+        }
 
-        # set output level to max
-        model.Params.TuneOutput = 3
+        arcs = [
+            {"from": "1", "to": "2", "cost": 3, "lower_bound": 0, "upper_bound": 2},
+            {"from": "1", "to": "3", "cost": 5, "lower_bound": 0, "upper_bound": 10},
+            {"from": "1", "to": "5", "cost": 1, "lower_bound": 0, "upper_bound": 10},
+            {"from": "2", "to": "3", "cost": 1, "lower_bound": 0, "upper_bound": 6},
+            {"from": "4", "to": "2", "cost": 4, "lower_bound": 0, "upper_bound": 8},
+            {"from": "4", "to": "3", "cost": 1, "lower_bound": 0, "upper_bound": 9},
+            {"from": "5", "to": "3", "cost": 6, "lower_bound": 0, "upper_bound": 9},
+            {"from": "5", "to": "4", "cost": 1, "lower_bound": 0, "upper_bound": 10},
+            {"from": "5", "to": "6", "cost": 1, "lower_bound": 0, "upper_bound": 6},
+            {"from": "6", "to": "2", "cost": 1, "lower_bound": 0, "upper_bound": 7},
+            {"from": "6", "to": "4", "cost": 1, "lower_bound": 0, "upper_bound": 8},
+        ]
 
-        # add variable f
-        f = model.addVars(node_ids, node_ids, vtype=GRB.CONTINUOUS, name='f')
+        # Create a new model
+        m = Model("mincostflow")
 
-        # add constraint representing supply/demand
-        for node_id, node in nodes.items():
-            print(node.initial_demand)
-            model.addConstr(gp.quicksum(f[arc.from_node.id, arc.to_node.id] for arc in arcs) -
-                            gp.quicksum(f[arc.to_node.id, arc.from_node.id] for arc in arcs)
-                            == node.initial_demand)
-            
-            # model.addConstr(gp.quicksum(f[i,j] for (x,j) in edges if x == i) -
-            #                 gp.quicksum(f[j,i] for (j,x) in edges if x == i)
-            #             == supply[i])
-
-        # add constraint on edge flows w.r.t. capacities
+        # Create variables
+        flow = {}
         for arc in arcs:
-            model.addConstr(f[arc.from_node.id, arc.to_node.id] <= arc.upper_bound)
+            flow[arc["from"], arc["to"]] = m.addVar(lb=arc["lower_bound"], ub=arc["upper_bound"], obj=arc["cost"], name=f'flow_{arc["from"]}_{arc["to"]}')
 
-        # for (i,j) in edges:
-        #     model.addConstr(f[i,j] <= capacity[i,j])
+        # Add demand constraints
+        for node in nodes:
+            m.addConstr(
+                quicksum(flow[arc["from"], arc["to"]] for arc in arcs if arc["to"] == node) -
+                quicksum(flow[arc["from"], arc["to"]] for arc in arcs if arc["from"] == node) == nodes[node]["demand"],
+                name=f'demand_{node}'
+            )
 
-        # add constraint on edge flows w.r.t. 0
-        for arc in arcs:
-            model.addConstr(f[arc.from_node.id, arc.to_node.id] >= 0)
+        # Optimize the model
+        m.optimize()
 
-        # for (i,j) in edges:
-        #     model.addConstr(f[i,j] >= 0)
-            
-        # set objective
-        model.setObjective(gp.quicksum(arc.cost * f[arc.from_node.id, arc.to_node.id] for arc in arcs), GRB.MINIMIZE)
-
-        # model.setObjective(gp.quicksum(cost[i,j] * f[i,j] for (i,j) in edges), GRB.MINIMIZE)
-
-        model.optimize()
-        try:
-            print(f'\nObjective value found: {model.objVal}')
-        except AttributeError as e:
-            print(f'\nCould not find an objective value. \nTraceback:\n\t{e}')
+        # Print the results
+        if m.status == GRB.OPTIMAL:
+            print("Optimal solution found:")
+            for arc in arcs:
+                print(f'Flow on arc {arc["from"]} -> {arc["to"]}: {flow[arc["from"], arc["to"]].x}')
+        else:
+            print("No feasible solution found")
