@@ -24,7 +24,8 @@ def plot_network(_network: Network):
             'lower_bound': arc.lower_bound, 
             'upper_bound': arc.upper_bound, 
             'flow': arc.flow,
-            'is_backward': arc.is_backward
+            'is_backward': arc.is_backward,
+            'is_debug' : arc.is_debug
             })])
         
     
@@ -50,14 +51,17 @@ def plot_network(_network: Network):
 
 
     # Draw edges
-    forward_edges = [(source_n, target_n) for source_n, target_n, edge_data in G.edges(data=True) if edge_data.get('is_backward') != True]
-    backward_edges = [(source_n, target_n) for source_n, target_n, edge_data in G.edges(data=True) if edge_data.get('is_backward') == True]
-    
+    forward_edges = [(source_n, target_n) for source_n, target_n, edge_data in G.edges(data=True) if (edge_data.get('is_backward') != True and edge_data.get('is_debug') == False)] 
+    backward_edges = [(source_n, target_n) for source_n, target_n, edge_data in G.edges(data=True) if (edge_data.get('is_backward') == True and edge_data.get('is_debug') == False)]
+    debug_edges = [(source_n, target_n) for source_n, target_n, edge_data in G.edges(data=True) if edge_data.get('is_debug') == True]
 
+    print(len(forward_edges), len(backward_edges))
     #for i in enumerate(forward_edges):
     nx.draw_networkx_edges(G,pos,edgelist=forward_edges,edge_color='gray', arrows=True, arrowstyle='-|>',arrowsize=20)
     nx.draw_networkx_edges(G,pos,edgelist=backward_edges,connectionstyle=f'arc3,rad=0.3',edge_color='red', arrows=True, arrowstyle='-|>',arrowsize=20)
        
+    nx.draw_networkx_edges(G,pos,edgelist=debug_edges,edge_color='blue', arrows=True, arrowstyle='-|>',arrowsize=20)
+
     # Create edge labels
     edge_labels = {(arc.from_node.id, arc.to_node.id): f'Flow: {arc.flow} / {arc.upper_bound}, Cost: {arc.cost}' for arc in _network.arcs}
 

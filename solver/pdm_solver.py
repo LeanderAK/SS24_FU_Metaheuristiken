@@ -20,13 +20,13 @@ class PDMSolver:
 
     def solve(_network: Network):
 
-        # while not check_if_demand_fulfilled(current_network_instance):
-        for i in range(10): 
-            print("range: " + str(i))
+        # for i in range(10): 
+        while not check_if_demand_fulfilled(_network):
+            # print("range: " + str(i))
             #TODO let this go as long as requirement not fulfilled
             #distances_at_nodes:dict[str:Tuple[float, Arc]] = do_djikstra(network_instance)      
             do_djikstra(_network)   
-            plot_network(_network)
+            # plot_network(_network)
            # print(f"distances: {distances_at_nodes}") 
             demand_nodes:list[Node] = _network.get_demand_nodes()
             supply_nodes:list[Node] = _network.get_supply_nodes()
@@ -47,46 +47,64 @@ class PDMSolver:
             # Hilfsnetzwerk erstellen / Edit Arcs for next iteration
             arcs:list[Arc] = list(_network.arcs)
             new_arcs:list[Arc] = []
-
             for arc in arcs:
                 #arc_flow = network_instance.flow.get(current_arc, 0)
                 #TODO add restkapazität for Rückwerzschranken
                 
                 # E+
-                if arc.flow < arc.upper_bound:
-                    print("e+", arc)
+                if arc.flow < arc.upper_bound and arc.is_backward == False:
+                    print("create forward ", arc)
                     # Yij = Yi - Yj + Cij                
                     new_arc_cost = arc.from_node.smallest_cost_to_arrive - arc.to_node.smallest_cost_to_arrive + arc.cost
-                    new_arcs.append(arc)
                     new_arc = Arc(
                         from_node=arc.from_node, 
                         to_node=arc.to_node, 
                         cost= new_arc_cost,
                         lower_bound=arc.lower_bound,
-                        upper_bound=arc.get_remaining_flow(),
+                        upper_bound=arc.upper_bound,
+                        flow= arc.flow,
                         is_backward=False
                     )
+                    new_arcs.append(new_arc)
+
+                # Debug Arc
+                # if arc.flow == arc.upper_bound:
+                #     new_arc = Arc(
+                #         from_node=arc.from_node, 
+                #         to_node=arc.to_node, 
+                #         cost= arc.cost,
+                #         lower_bound=arc.lower_bound,
+                #         upper_bound=arc.flow,
+                #         flow = 0,
+                #         is_backward=False,
+                #         is_debug=True
+                #     )
+                #     new_arcs.append(new_arc)
+
                 # E-
-                if arc.flow > 0 and not arc.is_backward:
-                    print("e-", arc)
+                if arc.flow > 0 and arc.is_backward == False:
+                    print("create backword ", arc)
                     # Yij = Yj - Yi - Cij
-                    print(f"new_arc_cost = arc.to_node.smallest_cost_to_arrive - arc.from_node.smallest_cost_to_arrive - arc.cost")
-                    print(f"new_arc_cost = {arc.to_node.smallest_cost_to_arrive} - {arc.from_node.smallest_cost_to_arrive} - {arc.cost}")
-                    print(f"new_arc_cost = arc.to_node - arc.from_node")
-                    print(f"new_arc_cost = {arc.to_node} - {arc.from_node}")
+                    # print(f"new_arc_cost = arc.to_node.smallest_cost_to_arrive - arc.from_node.smallest_cost_to_arrive - arc.cost")
+                    # print(f"new_arc_cost = {arc.to_node.smallest_cost_to_arrive} - {arc.from_node.smallest_cost_to_arrive} - {arc.cost}")
+                    # print(f"new_arc_cost = arc.to_node - arc.from_node")
+                    # print(f"new_arc_cost = {arc.to_node} - {arc.from_node}")
                     new_arc_cost = arc.to_node.smallest_cost_to_arrive - arc.from_node.smallest_cost_to_arrive - arc.cost
-                    print(f"new_arc_cost: = {new_arc_cost}")
+                    # print(f"new_arc_cost: = {new_arc_cost}")
+
+                    # Does backward arc exist? If so update!
                     new_arc = Arc(
                         from_node=arc.to_node, 
                         to_node=arc.from_node, 
                         cost= new_arc_cost,
                         lower_bound=arc.lower_bound,
-                        upper_bound=arc.get_remaining_flow(),
+                        upper_bound=arc.flow,
+                        flow = 0,
                         is_backward=True
                     )
                     new_arcs.append(new_arc)
 
-            print('solve 4')
+            # print('solve 4')
             _network.arcs = new_arcs
 
             print("done iteration, plotting effects")

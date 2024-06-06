@@ -89,12 +89,18 @@ def get_path_to_closest_demand_node(demand_nodes:list[Node], supply_nodes:list[N
 def get_max_flow_on_path(path: Path) -> float:
     # max_flow / lowest upper_bound    
     #lowest_upper_bound = float('inf')
-    lowest_upper_bound =  max(0,path.end_node.current_demand)
+
+    # Choose highest possible flow between upperbounds and demands.
+    lowest_upper_bound = float('inf')
     for arc in path.arcs:
         if arc.get_remaining_flow() < lowest_upper_bound:
-            lowest_upper_bound = arc.upper_bound
-            
-    
+            lowest_upper_bound = arc.get_remaining_flow()
+
+    if lowest_upper_bound > path.end_node.current_demand:
+        lowest_upper_bound = path.end_node.current_demand
+
+    if lowest_upper_bound > abs(path.start_node.current_demand):
+        lowest_upper_bound = abs(path.start_node.current_demand)
 
     return lowest_upper_bound
 

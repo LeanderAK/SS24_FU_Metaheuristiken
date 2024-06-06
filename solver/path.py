@@ -16,5 +16,5 @@ class Path():
         self.end_node = self.nodes[-1]
         
     def __str__(self) -> str:
-        return  '---- Path ---- \n' + '\n'.join(str(arc) for arc in self.arcs)
+        return  '---- Path ---- \n' + '\n'.join(str(arc) + '\n' for arc in self.arcs)
         
