@@ -27,11 +27,14 @@ class Network:
         #temp one backwards edge for testing
         #self.arcs.append(Arc(self.nodes.get('2'),self.nodes.get('1'),4,0,3,True))
                 
-    def get_neighboring_nodes(self, node: Node) -> list[Node]:
+    def get_neighboring_nodes(self, node: Node, ignored_filled_arcs: bool = True) -> list[Node]:
         neighbor_list: list[Node] = []
         for arc in self.arcs:
             if arc.from_node == node:
-                 neighbor_list.append(arc.to_node)
+                if ignored_filled_arcs == True and arc.has_filled_capacity() == False:
+                    neighbor_list.append(arc.to_node)
+                elif ignored_filled_arcs == False:
+                    neighbor_list.append(arc.to_node)
 
         return neighbor_list
     

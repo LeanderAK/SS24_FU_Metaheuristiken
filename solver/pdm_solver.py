@@ -33,7 +33,7 @@ class PDMSolver:
             path:Path = get_path_to_closest_demand_node(demand_nodes=demand_nodes, supply_nodes=supply_nodes)
             print(f"path:  {path}")  
             max_flow:float = get_max_flow_on_path(path)
-            print(f"max_flow {max_flow}")  
+            # print(f"max_flow {max_flow}")  
             #add flow 
             for arc in path.arcs:
                 arc.flow += max_flow
@@ -49,11 +49,10 @@ class PDMSolver:
             new_arcs:list[Arc] = []
             for arc in arcs:
                 #arc_flow = network_instance.flow.get(current_arc, 0)
-                #TODO add restkapazität for Rückwerzschranken
-                
                 # E+
-                if arc.flow < arc.upper_bound and arc.is_backward == False:
-                    print("create forward ", arc)
+                # if arc.flow < arc.upper_bound and arc.is_backward == False:
+                if arc.is_backward == False:
+                    # print("create forward ", arc)
                     # Yij = Yi - Yj + Cij                
                     new_arc_cost = arc.from_node.smallest_cost_to_arrive - arc.to_node.smallest_cost_to_arrive + arc.cost
                     new_arc = Arc(
@@ -83,7 +82,7 @@ class PDMSolver:
 
                 # E-
                 if arc.flow > 0 and arc.is_backward == False:
-                    print("create backword ", arc)
+                    # print("create backword ", arc)
                     # Yij = Yj - Yi - Cij
                     # print(f"new_arc_cost = arc.to_node.smallest_cost_to_arrive - arc.from_node.smallest_cost_to_arrive - arc.cost")
                     # print(f"new_arc_cost = {arc.to_node.smallest_cost_to_arrive} - {arc.from_node.smallest_cost_to_arrive} - {arc.cost}")
@@ -107,7 +106,7 @@ class PDMSolver:
             # print('solve 4')
             _network.arcs = new_arcs
 
-            print("done iteration, plotting effects")
+            # print("done iteration, plotting effects")
             plot_network(_network)
 
 

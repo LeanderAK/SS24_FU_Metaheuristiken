@@ -55,7 +55,6 @@ def plot_network(_network: Network):
     backward_edges = [(source_n, target_n) for source_n, target_n, edge_data in G.edges(data=True) if (edge_data.get('is_backward') == True and edge_data.get('is_debug') == False)]
     debug_edges = [(source_n, target_n) for source_n, target_n, edge_data in G.edges(data=True) if edge_data.get('is_debug') == True]
 
-    print(len(forward_edges), len(backward_edges))
     #for i in enumerate(forward_edges):
     nx.draw_networkx_edges(G,pos,edgelist=forward_edges,edge_color='gray', arrows=True, arrowstyle='-|>',arrowsize=20)
     nx.draw_networkx_edges(G,pos,edgelist=backward_edges,connectionstyle=f'arc3,rad=0.3',edge_color='red', arrows=True, arrowstyle='-|>',arrowsize=20)

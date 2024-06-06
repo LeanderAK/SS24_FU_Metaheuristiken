@@ -55,15 +55,15 @@ def get_path_to_closest_demand_node(demand_nodes:list[Node], supply_nodes:list[N
     shortest_distance = float('inf')
     shortest_distance_node: Node = None
 
-    print("get_path_to_closest_demand_node 1")
+    # print("get_path_to_closest_demand_node 1")
     for node in demand_nodes:
         distance = node.smallest_cost_to_arrive
         if distance < shortest_distance:
             shortest_distance = distance
             shortest_distance_node = node
 
-    print("get_path_to_closest_demand_node 2")
-    print(f"shortest_distance_node: {shortest_distance_node}")
+    # print("get_path_to_closest_demand_node 2")
+    # print(f"shortest_distance_node: {shortest_distance_node}")
 
     # get Path to closest_node
     # traversal_node = Node("3", None)
@@ -73,7 +73,7 @@ def get_path_to_closest_demand_node(demand_nodes:list[Node], supply_nodes:list[N
     arc_list: list[Arc] = []
     if traversal_node is not None:
         while traversal_node.incoming_arc_with_smallest_cost is not None:
-            print(f"traversal_node {traversal_node}")
+            # print(f"traversal_node {traversal_node}")
             arc = traversal_node.incoming_arc_with_smallest_cost
             arc_list.append(arc)
             traversal_node = arc.from_node
