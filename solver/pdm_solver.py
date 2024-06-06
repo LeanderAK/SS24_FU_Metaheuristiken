@@ -31,7 +31,7 @@ class PDMSolver:
             demand_nodes:list[Node] = _network.get_demand_nodes()
             supply_nodes:list[Node] = _network.get_supply_nodes()
             path:Path = get_path_to_closest_demand_node(demand_nodes=demand_nodes, supply_nodes=supply_nodes)
-            print(f"path:  {path}")  
+            # print(f"path:  {path}")  
             max_flow:float = get_max_flow_on_path(path)
             # print(f"max_flow {max_flow}")  
             #add flow 
@@ -66,20 +66,6 @@ class PDMSolver:
                     )
                     new_arcs.append(new_arc)
 
-                # Debug Arc
-                # if arc.flow == arc.upper_bound:
-                #     new_arc = Arc(
-                #         from_node=arc.from_node, 
-                #         to_node=arc.to_node, 
-                #         cost= arc.cost,
-                #         lower_bound=arc.lower_bound,
-                #         upper_bound=arc.flow,
-                #         flow = 0,
-                #         is_backward=False,
-                #         is_debug=True
-                #     )
-                #     new_arcs.append(new_arc)
-
                 # E-
                 if arc.flow > 0 and arc.is_backward == False:
                     # print("create backword ", arc)
@@ -109,8 +95,9 @@ class PDMSolver:
             # print("done iteration, plotting effects")
             # plot_network(_network)
 
-
-            
+        for arc in _network.arcs:
+            if arc.flow > 0:
+                print(f'Flow on arc {arc.from_node.id} -> {arc.to_node.id}: {arc.flow}')
         # plot_network_instance(network_instance)
 
         

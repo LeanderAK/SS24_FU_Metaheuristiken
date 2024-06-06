@@ -79,7 +79,6 @@ def get_path_to_closest_demand_node(demand_nodes:list[Node], supply_nodes:list[N
             traversal_node = arc.from_node
             #if(arc.from_node in supply_nodes)  # this is not redundant due to backwards arc the supply node can also have an incoming arc
             
-    print("get_path_to_closest_demand_node 3")
 
     
     path: Path = Path(arcs = arc_list[::-1])

@@ -10,7 +10,7 @@ class GUROBISolver:
     def solve(_network: Network):
         # Create a new model
         m = Model("mincostflow")
-
+        m.setParam('OutputFlag', 0)
         # Create variables
         flow = {}
         for arc in _network.arcs:
@@ -29,8 +29,8 @@ class GUROBISolver:
 
         # Print the results
         if m.status == GRB.OPTIMAL:
-            print("Optimal solution found:")
             for arc in _network.arcs:
-                print(f'Flow on arc {arc.from_node.id} -> {arc.to_node.id}: {flow[arc.from_node.id, arc.to_node.id].x}')
+                if flow[arc.from_node.id, arc.to_node.id].x > 0:
+                    print(f'Flow on arc {arc.from_node.id} -> {arc.to_node.id}: {flow[arc.from_node.id, arc.to_node.id].x}')
         else:
             print("No feasible solution found")
