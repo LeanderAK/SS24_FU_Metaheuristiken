@@ -107,7 +107,7 @@ class PDMSolver:
             _network.arcs = new_arcs
 
             # print("done iteration, plotting effects")
-            plot_network(_network)
+            # plot_network(_network)
 
 
             

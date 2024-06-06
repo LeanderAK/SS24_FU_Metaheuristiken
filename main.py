@@ -1,4 +1,5 @@
 import time
+from solver.gurobi.gurobi_solver import GUROBISolver
 from solver.pdm_solver import PDMSolver
 from solver.settings import Settings
 from solver import helper
@@ -23,20 +24,20 @@ if __name__ == '__main__':
     print('Start creating Network...')
     _network = Network()
     _network.fill_from_json(settings.get_data_path())
-    print(_network)
-    print('Done \n')
+    # print(_network)
+    # print('Done \n')
     
-    print('Visualize Network')
-    plot_network(_network)
+    # print('Visualize Network')
+    # plot_network(_network)
     print('Done \n')
     
     print('Start solving MinCostFlow...')
     if settings.get_solver_method() ==  'PDM':
         print('Selected solover method:' + settings.get_solver_method())
         network_flow = PDMSolver.solve(_network)
-    elif settings.get_solver_method() == 'YY':
+    elif settings.get_solver_method() == 'GUROBI':
         print('Selected solover method:' + settings.get_solver_method())
-        #network_flow = YYSolver.solve(network)
+        network_flow = GUROBISolver.solve(_network)
         
     else:
         raise ValueError('Invalid solver method:' + settings.get_solver_method())
