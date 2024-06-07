@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from solver.network.network import Network
 from solver.network.arc import Arc
 from solver.network.node import Node
+from solver.output import format_flow_string
 from solver.path import Path
 
 from solver.network.network_visualizer import * 
@@ -95,9 +96,11 @@ class PDMSolver:
             # print("done iteration, plotting effects")
             # plot_network(_network)
 
+        flow_list = []
         for arc in _network.arcs:
             if arc.flow > 0:
-                print(f'Flow on arc {arc.from_node.id} -> {arc.to_node.id}: {arc.flow}')
+                flow_list.append(format_flow_string(arc.from_node.id, arc.to_node.id, arc.flow))
+        return flow_list
         # plot_network_instance(network_instance)
 
         

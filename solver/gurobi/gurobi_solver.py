@@ -2,6 +2,8 @@ from solver.network.network import Network
 import gurobipy as gp
 from gurobipy import Model, GRB, quicksum
 
+from solver.output import format_flow_string
+
 class GUROBISolver:
     def __init__(self):
         print('TBD')
@@ -28,9 +30,11 @@ class GUROBISolver:
         m.optimize()
 
         # Print the results
+        flow_list = []
         if m.status == GRB.OPTIMAL:
             for arc in _network.arcs:
                 if flow[arc.from_node.id, arc.to_node.id].x > 0:
-                    print(f'Flow on arc {arc.from_node.id} -> {arc.to_node.id}: {flow[arc.from_node.id, arc.to_node.id].x}')
+                    flow_list.append(format_flow_string(arc.from_node.id, arc.to_node.id, flow[arc.from_node.id, arc.to_node.id].x))
         else:
             print("No feasible solution found")
+        return flow_list
