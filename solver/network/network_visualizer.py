@@ -11,14 +11,8 @@ import numpy as np
 # pip install networkX 
 # before executing this code
     
-def add_network_to_drawing(_network: Network, _title:str=''):
+def plot_network(_network: Network):
     G = nx.MultiDiGraph()
-    
-    
-    fig, ax = plt.subplots(figsize=(14,9))
-    ax.set_title(_title)
-    #plt.figure(figsize=(14,9))
-    
      
     #cost etc needs to be added here
     G.add_nodes_from(_network.get_nodes_as_strings())
@@ -112,9 +106,6 @@ def add_network_to_drawing(_network: Network, _title:str=''):
     #edge_labels = {(arc.from_node.id, arc.to_node.id): f'Flow: {arc.flow} / {arc.upper_bound}, Cost: {arc.cost}' for arc in _network.arcs}
     #nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=10, label_pos=0.6)
 
-   
-    
-def show_network_plot():
     plt.show()
-
+    
 

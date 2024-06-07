@@ -47,5 +47,5 @@ if __name__ == '__main__':
     print('Done')
     print('Total time: ' + str(time.time() - start_time) + ' seconds')
     
-    add_network_to_drawing(_network)
+    plot_network(_network)
 

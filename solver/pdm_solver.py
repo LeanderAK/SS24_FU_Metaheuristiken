@@ -20,10 +20,8 @@ class PDMSolver:
 
     def solve(_network: Network):
 
-        graph_title_index = 0
         # for i in range(10): 
         while not check_if_demand_fulfilled(_network):
-            graph_title_index +=1
             # print("range: " + str(i))
             #TODO let this go as long as requirement not fulfilled
             #distances_at_nodes:dict[str:Tuple[float, Arc]] = do_djikstra(network_instance)      
@@ -95,13 +93,12 @@ class PDMSolver:
             _network.arcs = new_arcs
 
             # print("done iteration, plotting effects")
-            add_network_to_drawing(_network, f"Graph: {graph_title_index}")
+            # plot_network(_network)
 
         for arc in _network.arcs:
             if arc.flow > 0:
                 print(f'Flow on arc {arc.from_node.id} -> {arc.to_node.id}: {arc.flow}')
         # plot_network_instance(network_instance)
-        show_network_plot()
 
         
                 
