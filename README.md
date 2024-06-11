@@ -7,7 +7,6 @@
 
 # Setup:
 - Define Solver method in Settings.yaml
-<br>
 ```
 PDM or GUROBI
 
