@@ -31,7 +31,7 @@
 - run Main.py
 
 # Additional Configuration
-You can also control what iterations of the network are plotted while running the PDM Alogirhtm. To do so you can update the ```pdm_plot_settings```in settings.yaml
+You can also control what iterations of the network are plotted while running the PDM Algorithm. To do so you can update the ```pdm_plot_settings```in settings.yaml
 
 # Output:
 The Output is printed into txt files in the Output directory. The names are named in the following convention:
