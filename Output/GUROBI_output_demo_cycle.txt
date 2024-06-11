@@ -1,0 +1,6 @@
+Flow on arc 1 -> 2: 5
+Flow on arc 2 -> 3: 1
+Flow on arc 4 -> 5: 2
+Flow on arc 2 -> 4: 3
+solved with:  GUROBI 
+Total time: 0.004173994064331055 seconds

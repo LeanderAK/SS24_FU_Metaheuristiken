@@ -7,4 +7,4 @@ Flow on arc 5 -> 4: 9
 Flow on arc 6 -> 2: 7
 Flow on arc 6 -> 4: 1
 solved with:  PDM 
-Total time: 0.0005397796630859375 seconds
+Total time: 2.7265729904174805 seconds
