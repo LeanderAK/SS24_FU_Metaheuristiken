@@ -19,27 +19,19 @@ if __name__ == '__main__':
     settings = Settings()
     settings.import_settings_from_txt_file()
     print('Done \n')
-    
-    #print('Loading Inputdata...')
-    #print('Done')
     print('Start creating Network...')
     _network = Network()
     data_path = settings.get_data_path()
     dataset_name = data_path.split('/')[1]
     dataset_name = dataset_name.split('.')[0]
     _network.fill_from_json(data_path)
-    # print(_network)
-    # print('Done \n')
-    
-    # print('Visualize Network')
-    # plot_network(_network)
     print('Done \n')
     outputer = None
     flow_list = []
     print('Start solving MinCostFlow...')
     if settings.get_solver_method() ==  'PDM':
         print('Selected solover method:' + settings.get_solver_method())
-        flow_list = PDMSolver.solve(_network)
+        flow_list = PDMSolver.solve(_network, settings)
     elif settings.get_solver_method() == 'GUROBI':
         print('Selected solover method:' + settings.get_solver_method())
         flow_list = GUROBISolver.solve(_network)
@@ -60,5 +52,4 @@ if __name__ == '__main__':
         solver_method = solver_method,
         total_time = total_time)
     outputer.write_to_output_file()
-    plot_network(_network)
 

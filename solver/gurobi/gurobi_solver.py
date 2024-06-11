@@ -10,15 +10,13 @@ class GUROBISolver:
 
 
     def solve(_network: Network):
-        # Create a new model
         m = Model("mincostflow")
         m.setParam('OutputFlag', 0)
-        # Create variables
         flow = {}
         for arc in _network.arcs:
+            print(arc)
             flow[arc.from_node.id, arc.to_node.id] = m.addVar(lb=arc.lower_bound, ub=arc.upper_bound, obj=arc.cost, name=f'flow_{arc.from_node.id}_{arc.to_node.id}')
 
-        # Add demand constraints
         for node_id, node in _network.nodes.items():
             m.addConstr(
                 quicksum(flow[arc.from_node.id, arc.to_node.id] for arc in _network.arcs if arc.to_node == node) -
@@ -26,10 +24,8 @@ class GUROBISolver:
                 name=f'demand_{node_id}'
             )
 
-        # Optimize the model
         m.optimize()
 
-        # Print the results
         flow_list = []
         if m.status == GRB.OPTIMAL:
             for arc in _network.arcs:

@@ -1,0 +1,15 @@
+# Select Dataset to solve
+data_path : "Data/chvatal_small.json"
+
+# Select solver mode - PDM | GUROBI 
+solver_method : "PDM"
+
+# Select what states of the network you want to plot during runtime.
+# plot_djikstra: plots each iteration after running djikstra algorithm
+# plot_pdm: plots each iteration after running pdm algorithm
+# plot_final: plots the final result
+
+pdm_plot_settings:
+    plot_djikstra : false
+    plot_pdm : false
+    plot_final: true

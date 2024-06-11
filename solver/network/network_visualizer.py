@@ -105,7 +105,6 @@ def plot_network(_network: Network):
     # -- draw all arc values ----
     #edge_labels = {(arc.from_node.id, arc.to_node.id): f'Flow: {arc.flow} / {arc.upper_bound}, Cost: {arc.cost}' for arc in _network.arcs}
     #nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=10, label_pos=0.6)
-
     plt.show()
     
 
