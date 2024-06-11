@@ -22,13 +22,10 @@ class Arc:
         if(self.is_backward):
             backwards_string = '-is_backwards'
         
-        #return f"from: {self.from_node} to {self.to_node} {backwards_string}"
         return f"from: {self.from_node} to {self.to_node}"
     
     def get_remaining_flow(self) -> float:
-        # print("remaining flow", self.upper_bound, self.flow, self)
         return self.upper_bound - self.flow
     
     def has_filled_capacity(self) -> bool:
-        # print(self, ": capacity: ", self.flow, self.upper_bound)
         return self.flow == self.upper_bound

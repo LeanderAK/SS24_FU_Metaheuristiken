@@ -8,10 +8,6 @@ from solver import helper
 from solver.network.network import Network
 from solver.network.network_visualizer import * 
 
-#from lib.xxSolver import XXSolver
-#from lib.yySolver import YYSolver
-
-
 if __name__ == '__main__':
     start_time = time.time()
     
@@ -41,7 +37,7 @@ if __name__ == '__main__':
         raise ValueError('Invalid solver method:' + settings.get_solver_method())
     print('Done')
     print('Generating output...')
-    #helper.save_network_flow(network_flow)
+    
     print('Done')
     total_time = 'Total time: ' + str(time.time() - start_time) + ' seconds'
     print(total_time)

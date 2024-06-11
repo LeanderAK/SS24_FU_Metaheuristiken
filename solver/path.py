@@ -1,6 +1,3 @@
-###
-# Helper class to make it easier to work with a path inside the network
-###
 from solver.network.arc import Arc
 from solver.network.node import Node
 

@@ -2,16 +2,10 @@ import json
 from solver.network.node import Node
 from solver.network.arc import Arc
 
-class Network:
-    ### 
-    # class representing the network
-    ###
-    
+class Network:    
     def __init__(self):
         self.nodes:dict[Node] = {}
-        # TODO performance bottleneck when searching for specific Arc
         self.arcs:list[Arc] = []
-        #self.flow: dict[Arc:float] = {}
 
     def fill_from_json(self, filename):
         with open(filename, "r") as file:
@@ -23,10 +17,7 @@ class Network:
                 from_node = self.nodes.get(arc_data["from"] )
                 to_node = self.nodes.get(arc_data["to"])
                 self.arcs.append(Arc(from_node, to_node, arc_data["cost"], arc_data["lower_bound"], arc_data["upper_bound"]))
-                
-        #temp one backwards edge for testing
-        #self.arcs.append(Arc(self.nodes.get('2'),self.nodes.get('1'),4,0,3,True))
-                
+                            
     def get_neighboring_nodes(self, node: Node, ignored_filled_arcs: bool = True) -> list[Node]:
         neighbor_list: list[Node] = []
         for arc in self.arcs:
@@ -39,7 +30,6 @@ class Network:
         return neighbor_list
     
     def get_arc_from_to(self, from_node: Node, to_node: Node) -> Arc:
-        # TODO performance bottleneck when searching for specific Arc
         for arc in self.arcs:
             if arc.to_node == to_node and arc.from_node == from_node:
                 return arc
