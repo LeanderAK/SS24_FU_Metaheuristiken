@@ -9,7 +9,8 @@
 - Define Solver method in Settings.yaml
 <br>
 ```
- PDM or GUROBI
+PDM or GUROBI
+
 ```
 
 - Define filepath for input data. This should be a JSON file with the following layout:
