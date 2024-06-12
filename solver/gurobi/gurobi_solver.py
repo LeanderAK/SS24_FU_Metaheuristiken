@@ -14,7 +14,6 @@ class GUROBISolver:
         m.setParam('OutputFlag', 0)
         flow = {}
         for arc in _network.arcs:
-            print(arc)
             flow[arc.from_node.id, arc.to_node.id] = m.addVar(lb=arc.lower_bound, ub=arc.upper_bound, obj=arc.cost, name=f'flow_{arc.from_node.id}_{arc.to_node.id}')
 
         for node_id, node in _network.nodes.items():
