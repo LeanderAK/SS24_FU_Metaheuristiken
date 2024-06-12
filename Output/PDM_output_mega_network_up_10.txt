@@ -1,0 +1,32 @@
+Flow on arc S -> 1: 10
+Flow on arc S -> 2: 10
+Flow on arc S -> 3: 10
+Flow on arc S -> 4: 10
+Flow on arc S -> 5: 10
+Flow on arc S -> 6: 10
+Flow on arc S -> 7: 10
+Flow on arc S -> 8: 10
+Flow on arc S -> 9: 10
+Flow on arc S -> 10: 10
+Flow on arc 91 -> T: 10
+Flow on arc 92 -> T: 10
+Flow on arc 93 -> T: 10
+Flow on arc 94 -> T: 10
+Flow on arc 95 -> T: 10
+Flow on arc 96 -> T: 10
+Flow on arc 97 -> T: 10
+Flow on arc 98 -> T: 10
+Flow on arc 99 -> T: 10
+Flow on arc 100 -> T: 10
+Flow on arc 1 -> 91: 10
+Flow on arc 2 -> 92: 10
+Flow on arc 3 -> 93: 10
+Flow on arc 4 -> 94: 10
+Flow on arc 5 -> 95: 10
+Flow on arc 6 -> 96: 10
+Flow on arc 7 -> 97: 10
+Flow on arc 8 -> 98: 10
+Flow on arc 9 -> 99: 10
+Flow on arc 10 -> 100: 10
+solved with:  PDM 
+Total time: 14.886469602584839 seconds
